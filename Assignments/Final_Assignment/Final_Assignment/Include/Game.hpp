@@ -6,8 +6,16 @@
 #include <SFML/Audio.hpp>
 
 #include <iostream>
-#include "Include/Puck.hpp"
-#include "Include/Bat.hpp"
+#include <iostream>
+#include <vector>
+
+#include "Include/ResourceHolder.hpp"
+#include "Include/ResourceIdentifiers.hpp"
+
+#include "Include/ExplodingThing.hpp"
+#include "Include/UIElement.hpp"
+
+
 
 using namespace std;
 
@@ -25,8 +33,28 @@ private:
 	void					updateStatistics(sf::Time elapsedTime);
 	void					updateScore();
 	void					handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	void					mainMenu();
+	void					animateButton();
+	void					initializeGame();
+	void					movePlayer();
+	void					animatePlayer();
+	void					shoot();
+	void					moveProjectiles();
+	void					animateProjectiles();
+	void					spawnAsteroids();
+	void					moveAsteroids();
+	sf::Vector2f			calculateAsteroidDirection(sf::Vector2f position);
+	void					animateAsteroids();
+	void					collisionBulletAsteroid();
+	void					addExplosion(sf::Vector2f position);
+	void					animateExplosions();
+	void					collisionPlayerAsteroid();
+	void					pauseMenu();
+	void					gameOver();
 
 private:
+	/* Player Speed */
+	static const float PlayerSpeed;
 	/* movement independent of frames/second + statistics */
 	static const sf::Time	TimePerFrame;
 	sf::Font				mFont;
@@ -37,13 +65,30 @@ private:
 	sf::RenderWindow		mWindow;
 	sf::View				mView;
 	sf::FloatRect			mWorldBounds;
-	sf::Texture				backTexture;
-	sf::Sprite				background;
+
+	/* Game UI elements */
+	sf::Sprite				background, 
+		                    backgroundPause, 
+		                    pauseTitle, 
+		                    resume, 
+		                    mainMenuPause, 
+		                    gameOverTitle, 
+		                    retry, 
+		                    mainMenuGameOver;
+
+	/* replacing all texture by this texture holder */
+	TextureHolder			mTextures;
 
 	/*
-	 * Puck related data
+	 * Player related data
 	 */
-	Puck					puck;
+	ExplodingThing			*mPlayer;
+	vector<ExplodingThing*> projectiles;
+	vector<ExplodingThing*> asteroids;
+	vector<ExplodingThing*> explosions;
+	sf::Sprite				playerForward;
+
+	UIElement				*mTitle, *mPlay, *mQuit, *mGameOverTitle, *mPauseTitle, *mRetry, *mMainMenu, *mResume;
 
 	/*
 	 * player related data
@@ -52,14 +97,11 @@ private:
 	sf::Text				mScoreText;
 	int						playerLives;
 	int						playerScore;
-	Bat						bat;
 
 	/*
 	 * player movement
 	 */
-	bool					mIsMovingLeft;
-	bool					mIsMovingRight;
-	bool					mIsColliding;
+	bool					mIsMovingLeft, mIsMovingRight, mIsMovingUp, mIsMovingDown, mIsColliding;
 
 	/*
 	 * EndGame

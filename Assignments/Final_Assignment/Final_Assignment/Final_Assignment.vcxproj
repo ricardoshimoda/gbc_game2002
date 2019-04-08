@@ -145,15 +145,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bat.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Puck.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ExplodingThing.cpp" />
+    <ClCompile Include="UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Bat.hpp" />
+    <ClInclude Include="Include\Entity.hpp" />
     <ClInclude Include="Include\Puck.hpp" />
     <ClInclude Include="Include\Game.hpp" />
+    <ClInclude Include="Include\ResourceHolder.hpp" />
+    <ClInclude Include="Include\ResourceIdentifiers.hpp" />
+    <ClInclude Include="Include\ExplodingThing.hpp" />
     <ClInclude Include="Include\StringHelpers.hpp" />
+    <ClInclude Include="Include\UIElement.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Include\ResourceHolder.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

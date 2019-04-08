@@ -11,7 +11,19 @@ namespace Textures
 	enum ID
 	{
 		Background,
-		Puck,
+		Spaceship,
+		Asteroid,
+		Explosion,
+		Title,
+		Play,
+		Quit,
+		BackgroundPause,
+		PauseTitle,
+		MainMenu,
+		Resume,
+		GameOverTitle,
+		Retry,
+
 	};
 }
 
