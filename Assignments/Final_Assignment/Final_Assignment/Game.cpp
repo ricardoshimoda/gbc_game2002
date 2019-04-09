@@ -37,6 +37,7 @@ Game::Game()
 	, mTextures()
 	, background()
 	, mStatisticsText()
+	, mBlankStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
 	, mPlayer()
@@ -132,10 +133,10 @@ Game::Game()
 	mPlayer->setSprite(playerForward);
 
 
-	mStatisticsText.setFont(mFont);
-	mStatisticsText.setPosition(5.f, 5.f);
-	mStatisticsText.setCharacterSize(10);
-	mStatisticsText.setFillColor(sf::Color::White);
+	mBlankStatisticsText.setFont(mFont);
+	mBlankStatisticsText.setPosition(5.f, mView.getSize().y - 40.f);
+	mBlankStatisticsText.setCharacterSize(15);
+	mBlankStatisticsText.setFillColor(sf::Color::White);
 
 	/*
 	 * Set statistics text properties
@@ -185,9 +186,14 @@ void Game::updateStatistics(sf::Time elapsedTime)
 
 	if (mStatisticsUpdateTime >= sf::seconds(1.0f))
 	{
-		mStatisticsText.setString(
+		string updateStats =
 			"Frames / Second = " + to_string(mStatisticsNumFrames) + "\n" +
-			"Time / Update = " + to_string(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us");
+			"Time / Update = " + to_string(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us";
+		
+		mStatisticsText.setString(updateStats);
+
+		mBlankStatisticsText.setString(updateStats);
+
 
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
 		mStatisticsNumFrames = 0;
@@ -368,7 +374,12 @@ void Game::render()
 		else if (drawButton)
 			mWindow.draw(*mMainMenu);
 	}
-	mWindow.draw(mStatisticsText);
+	if (gameState != 1) {
+		mWindow.draw(mStatisticsText);
+	}
+	else {
+		mWindow.draw(mBlankStatisticsText);
+	}
 	mWindow.display();
 }
 
@@ -610,7 +621,7 @@ void Game::animateProjectiles()
 void Game::spawnAsteroids()
 {
 	asteroidTimer += TimePerFrame.asSeconds();
-	if (asteroidTimer >= 1.f)
+	if (asteroidTimer >= 0.3f)
 	{
 		asteroidTimer = 0;
 		sf::Texture& asteroidTexture = mTextures.get(Textures::Asteroid);
@@ -666,7 +677,7 @@ void Game::moveAsteroids()
 
 sf::Vector2f Game::calculateAsteroidDirection(sf::Vector2f position)
 {
-	float asteroidBehaviour = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * 2; // Random float between 0-2.
+	float asteroidBehaviour = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * 3; // Random float between 0-3.
 
 	if (asteroidBehaviour < 1) {
 		/* follows the player */
@@ -675,9 +686,16 @@ sf::Vector2f Game::calculateAsteroidDirection(sf::Vector2f position)
 		float total = abs(distanceX) + abs(distanceY);
 		return sf::Vector2f(distanceX / total, distanceY / total) * asteroidSpeed;
 	}
-	else {
+	else if (asteroidBehaviour >= 1 && asteroidBehaviour <= 2){
 		float random = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
 		return sf::Vector2f(random, (1- random)) * asteroidSpeed;
+	}
+	else {
+		// Goes to the center of the screen 
+		float distanceX = 1280/2 -position.x;
+		float distanceY = 900/2 - position.y;
+		float total = abs(distanceX) + abs(distanceY);
+		return sf::Vector2f(distanceX / total, distanceY / total) * asteroidSpeed;
 	}
 
 }

@@ -1,5 +1,7 @@
 ﻿D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Assignment_1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  ExplodingThing.cpp
   Game.cpp
+  UIElement.cpp
   main.cpp
   Generating Code...
   Final_Assignment.vcxproj -> D:\Projects\GBC\04\GAME2002\gbc_game2002\Assignments\Final_Assignment\x64\Debug\Final_Assignment.exe

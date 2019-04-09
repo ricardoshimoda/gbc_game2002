@@ -60,6 +60,7 @@ private:
 	sf::Font				mFont;
 	std::size_t				mStatisticsNumFrames;
 	sf::Text				mStatisticsText;
+	sf::Text				mBlankStatisticsText;
 	sf::Time				mStatisticsUpdateTime;
 
 	sf::RenderWindow		mWindow;
